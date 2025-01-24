@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Success</h1>
+        <p class="success" id="successMessage">Canceled!</p>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            // Function to get URL parameters
+            function getUrlParams() {
+                const params = {};
+                const queryString = window.location.search.substring(1);
+                const pairs = queryString.split('&');
+                for (const pair of pairs) {
+                    const [key, value] = pair.split('=');
+                    params[decodeURIComponent(key)] = decodeURIComponent(value);
+                }
+                return params;
+            }
+
+            const params = getUrlParams();
+            const webhookUrl = new URL('https://www.pipelines.quickbase.com/hooks/webhooks/1jlwi0r30g0');
+
+            // Append URL parameters to the webhook URL
+            for (const key in params) {
+                webhookUrl.searchParams.append(key, params[key]);
+            }
+
+            fetch(webhookUrl, {
+                method: 'GET'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.error('Failed to call webhook');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+            // Close the page after 5 seconds
+            setTimeout(function() {
+                window.close();
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
