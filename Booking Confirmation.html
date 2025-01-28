@@ -30,6 +30,34 @@
 <body>
     <div class="container">
         <h1>Your booking was scheduled</h1>
+        <p id="name"></p>
+        <p id="id"></p>
+        <p id="sv"></p>
+        <p id="zoomlink"></p>
+        <p id="zoomphone"></p>
     </div>
+
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                name: params.get('name'),
+                id: params.get('id'),
+                sv: params.get('sv'),
+                zoomlink: params.get('zoomlink'),
+                zoomphone: params.get('zoomphone')
+            };
+        }
+
+        function displayBookingDetails() {
+            const params = getQueryParams();
+            document.getElementById('name').textContent = `${params.name} - ${params.id}`;
+            document.getElementById('id').textContent = `Assigned supervisor: ${params.sv}`;
+            document.getElementById('zoomlink').innerHTML = `Zoom Link: <a href="${params.zoomlink}">Join Zoom Supervision</a>`;
+            document.getElementById('zoomphone').textContent = `Zoom Number: ${params.zoomphone}`;
+        }
+
+        window.onload = displayBookingDetails;
+    </script>
 </body>
 </html>
