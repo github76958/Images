@@ -35,6 +35,9 @@
         <p id="sv"></p>
         <p id="zoomlink"></p>
         <p id="zoomphone"></p>
+        <p id="date"></p>
+        <p id="starttime"></p>
+        <p id="endtime"></p>
     </div>
 
     <script>
@@ -45,7 +48,10 @@
                 id: params.get('id'),
                 sv: params.get('sv'),
                 zoomlink: params.get('zoomlink'),
-                zoomphone: params.get('zoomphone')
+                zoomphone: params.get('zoomphone'),
+                date: params.get('date'),
+                starttime: params.get('starttime'),
+                endtime: params.get('endtime')
             };
         }
 
@@ -55,6 +61,9 @@
             document.getElementById('id').textContent = `Assigned supervisor: ${params.sv}`;
             document.getElementById('zoomlink').innerHTML = `Zoom Link: <a href="${params.zoomlink}">Join Zoom Supervision</a>`;
             document.getElementById('zoomphone').textContent = `Zoom Number: ${params.zoomphone}`;
+            document.getElementById('date').textContent = `Date: ${params.date}`;
+            document.getElementById('starttime').textContent = `Start Time: ${params.starttime}`;
+            document.getElementById('endtime').textContent = `End Time: ${params.endtime}`;
         }
 
         window.onload = displayBookingDetails;
