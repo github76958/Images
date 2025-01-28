@@ -26,7 +26,7 @@
             color: #333;
         }
         .button {
-                       padding: 10px 20px;
+            padding: 10px 20px;
             background-color: #007bff;
             color: #fff;
             border: none;
@@ -80,6 +80,8 @@
 
         function saveToCalendar() {
             const params = getQueryParams();
+            const startDate = params.date.replace(/-/g, '') + 'T' + params.starttime.replace(/:/g, '') + '00Z';
+            const endDate = params.date.replace(/-/g, '') + 'T' + params.endtime.replace(/:/g, '') + '00Z';
             const icsContent = `
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -87,8 +89,8 @@ PRODID:-//Your Organization//NONSGML v1.0//EN
 BEGIN:VEVENT
 UID:${new Date().getTime()}@yourdomain.com
 DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-DTSTART:${params.date.replace(/-/g, '')}T${params.starttime.replace(/:/g, '')}00Z
-DTEND:${params.date.replace(/-/g, '')}T${params.endtime.replace(/:/g, '')}00Z
+DTSTART:${startDate}
+DTEND:${endDate}
 SUMMARY:Booking with ${params.sv}
 DESCRIPTION:Zoom Link: ${params.zoomlink}\\nZoom Number: ${params.zoomphone}
 LOCATION:Online
