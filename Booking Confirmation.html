@@ -51,7 +51,7 @@
 
         function displayBookingDetails() {
             const params = getQueryParams();
-            document.getElementById('name').textContent = `${params.id}`;
+            document.getElementById('name').textContent = `${params.name} - ${params.id}`;
             document.getElementById('id').textContent = `Assigned supervisor: ${params.sv}`;
             document.getElementById('zoomlink').innerHTML = `Zoom Link: <a href="${params.zoomlink}">Join Zoom Supervision</a>`;
             document.getElementById('zoomphone').textContent = `Zoom Number: ${params.zoomphone}`;
