@@ -25,6 +25,17 @@
         .container h1 {
             color: #333;
         }
+        .button {
+                       padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -38,6 +49,7 @@
         <p id="date"></p>
         <p id="starttime"></p>
         <p id="endtime"></p>
+        <button class="button" onclick="saveToCalendar()">Save to Calendar</button>
     </div>
 
     <script>
@@ -64,6 +76,34 @@
             document.getElementById('date').textContent = `Date: ${params.date}`;
             document.getElementById('starttime').textContent = `Start Time: ${params.starttime}`;
             document.getElementById('endtime').textContent = `End Time: ${params.endtime}`;
+        }
+
+        function saveToCalendar() {
+            const params = getQueryParams();
+            const icsContent = `
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Your Organization//NONSGML v1.0//EN
+BEGIN:VEVENT
+UID:${new Date().getTime()}@yourdomain.com
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+DTSTART:${params.date.replace(/-/g, '')}T${params.starttime.replace(/:/g, '')}00Z
+DTEND:${params.date.replace(/-/g, '')}T${params.endtime.replace(/:/g, '')}00Z
+SUMMARY:Booking with ${params.sv}
+DESCRIPTION:Zoom Link: ${params.zoomlink}\\nZoom Number: ${params.zoomphone}
+LOCATION:Online
+END:VEVENT
+END:VCALENDAR
+            `.trim();
+
+            const blob = new Blob([icsContent], { type: 'text/calendar' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'booking.ics';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
 
         window.onload = displayBookingDetails;
