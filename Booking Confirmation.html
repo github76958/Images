@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             display: flex;
-           : center;
+            justify-content: center;
             align-items: center;
             height: 100vh;
         }
@@ -29,6 +29,7 @@
             padding: 10px 20px;
             background-color: #007bff;
             color: #fff;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
@@ -93,7 +94,6 @@
         }
 
         function saveToCalendar() {
-            alert('Button clicked!'); // Debugging step
             const params = getQueryParams();
             const startDate = params.date.split('/').reverse().join('') + 'T' + convertTo24Hour(params.starttime) + 'Z';
             const endDate = params.date.split('/').reverse().join('') + 'T' + convertTo24Hour(params.endtime) + 'Z';
