@@ -80,8 +80,8 @@
 
         function saveToCalendar() {
             const params = getQueryParams();
-            const startDate = params.date.replace(/-/g, '') + 'T' + params.starttime.replace(/:/g, '').replace(' pm', '00Z');
-            const endDate = params.date.replace(/-/g, '') + 'T' + params.endtime.replace(/:/g, '').replace(' pm', '00Z');
+            const startDate = params.date.replace(/-/g, '') + 'T' + params.starttime.replace(/:/g, '') + '00Z';
+            const endDate = params.date.replace(/-/g, '') + 'T' + params.endtime.replace(/:/g, '') + '00Z';
             const icsContent = `
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -111,4 +111,4 @@ END:VCALENDAR
         window.onload = displayBookingDetails;
     </script>
 </body>
-</html
+</html>
