@@ -92,6 +92,7 @@
         }
 
         function saveToCalendar() {
+            alert('Button clicked!'); // Debugging step
             const params = getQueryParams();
             const startDate = params.date.replace(/-/g, '') + 'T' + convertTo24Hour(params.starttime) + 'Z';
             const endDate = params.date.replace(/-/g, '') + 'T' + convertTo24Hour(params.endtime) + 'Z';
@@ -110,6 +111,8 @@ LOCATION:Online
 END:VEVENT
 END:VCALENDAR
             `.trim();
+
+            console.log(icsContent); // Debugging step
 
             const blob = new Blob([icsContent], { type: 'text/calendar' });
             const url = URL.createObjectURL(blob);
