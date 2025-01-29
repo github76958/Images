@@ -78,10 +78,22 @@
             document.getElementById('endtime').textContent = `End Time: ${params.endtime}`;
         }
 
+        function convertTo24Hour(time) {
+            const [hours, minutes] = time.split(':');
+            let [hour, period] = hours.split(' ');
+            hour = parseInt(hour, 10);
+            if (period.toLowerCase() === 'pm' && hour !== 12) {
+                hour += 12;
+            } else if (period.toLowerCase() === 'am' && hour === 12) {
+                hour = 0;
+            }
+            return `${hour.toString().padStart(2, '0')}${minutes}00`;
+        }
+
         function saveToCalendar() {
             const params = getQueryParams();
-            const startDate = params.date.replace(/-/g, '') + 'T' + params.starttime.replace(/:/g, '').replace(' pm', '00Z');
-            const endDate = params.date.replace(/-/g, '') + 'T' + params.endtime.replace(/:/g, '').replace(' pm', '00Z');
+            const startDate = params.date.replace(/-/g, '') + 'T' + convertTo24Hour(params.starttime) + 'Z';
+            const endDate = params.date.replace(/-/g, '') + 'T' + convertTo24Hour(params.endtime) + 'Z';
             const icsContent = `
 BEGIN:VCALENDAR
 VERSION:2.0
