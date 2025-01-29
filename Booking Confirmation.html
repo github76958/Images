@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+           : center;
             align-items: center;
             height: 100vh;
         }
@@ -29,7 +29,6 @@
             padding: 10px 20px;
             background-color: #007bff;
             color: #fff;
-            border: none;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
@@ -96,8 +95,8 @@
         function saveToCalendar() {
             alert('Button clicked!'); // Debugging step
             const params = getQueryParams();
-            const startDate = params.date.replace(/-/g, '') + 'T' + convertTo24Hour(params.starttime) + 'Z';
-            const endDate = params.date.replace(/-/g, '') + 'T' + convertTo24Hour(params.endtime) + 'Z';
+            const startDate = params.date.split('/').reverse().join('') + 'T' + convertTo24Hour(params.starttime) + 'Z';
+            const endDate = params.date.split('/').reverse().join('') + 'T' + convertTo24Hour(params.endtime) + 'Z';
             const icsContent = `
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -130,3 +129,12 @@ END:VCALENDAR
     </script>
 </body>
 </html>
+This updated code ensures the date is correctly formatted in YYYYMMDD format before generating the .ics file. Let me know if this resolves the issue!
+
+
+Edit in Pages
+
+
+
+
+AI-generated content may be incorrect
