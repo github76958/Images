@@ -37,7 +37,11 @@
         function getCancelLink() {
             const urlParams = new URLSearchParams(window.location.search);
             const guid = urlParams.get('guid');
-            return `https://github76958.github.io/Images/Cancel%20Booking.html?guid=${guid}`;
+            if (guid) {
+                return `https://github76958.github.io/Images/Cancel%20Booking.html?guid=${encodeURIComponent(guid)}`;
+            } else {
+                return null; // Or handle the missing guid in cancelAction
+            }
         }
 
         function cancelAction() {
@@ -45,7 +49,7 @@
             if (cancelLink) {
                 window.location.href = cancelLink;
             } else {
-                alert('GUID parameter not found!');
+                alert('GUID parameter not found in the URL!');
             }
         }
     </script>
