@@ -32,22 +32,66 @@
         .button:hover {
             background-color: #ff1a1a;
         }
+        .message-container {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .success-message {
+            color: green;
+        }
+        .error-message {
+            color: red;
+        }
+        .hidden {
+            display: none;
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const guid = urlParams.get('guid');
             const guidInput = document.getElementById('appointmentGuid');
+            const cancelButton = document.getElementById('cancelButton');
+            const messageContainer = document.getElementById('messageContainer');
 
             if (guid && guidInput) {
                 guidInput.value = guid;
             } else {
                 alert('GUID parameter not found in the URL!');
-                // Optionally disable the button or handle the error differently
-                const submitButton = document.querySelector('button[type="submit"]');
-                if (submitButton) {
-                    submitButton.disabled = true;
+                if (cancelButton) {
+                    cancelButton.disabled = true;
                 }
+            }
+
+            if (cancelButton) {
+                cancelButton.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent the default form submission
+
+                    const formData = new FormData(document.getElementById('cancelForm'));
+
+                    fetch('YOUR_WEBHOOK_ENDPOINT_URL', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest' // Optional: To identify AJAX requests on the server
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            messageContainer.textContent = 'Submitted: You will get a confirmation email once your cancellation was successful.';
+                            messageContainer.className = 'message-container success-message';
+                        } else {
+                            console.error('Cancellation request failed:', response.status);
+                            messageContainer.textContent = 'Error: Could not submit cancellation. Please try again later.';
+                            messageContainer.className = 'message-container error-message';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('There was a network error:', error);
+                        messageContainer.textContent = 'Error: Network error. Please check your internet connection and try again.';
+                        messageContainer.className = 'message-container error-message';
+                    });
+                });
             }
         });
     </script>
@@ -56,10 +100,11 @@
     <div class="container">
         <h1>Confirm Cancellation</h1>
         <p>Please click the button below to confirm the cancellation of your appointment.</p>
-        <form id="cancelForm" action="https://www.pipelines.quickbase.com/hooks/webhooks/1jlwi0r30g0" method="POST">
+        <form id="cancelForm" action="YOUR_WEBHOOK_ENDPOINT_URL" method="POST">
             <input type="hidden" id="appointmentGuid" name="guid" value="">
-            <button type="submit" class="button">Confirm Cancellation</button>
+            <button type="button" id="cancelButton" class="button">Confirm Cancellation</button>
         </form>
+        <div id="messageContainer" class="message-container hidden"></div>
     </div>
 </body>
 </html>
