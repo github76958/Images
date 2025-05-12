@@ -5,7 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cancel Confirmation</title>
     <style>
-        /* ... (your existing styles) ... */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed; /* Initially disabled cursor */
+            font-size: 16px;
+            opacity: 0.5; /* Visually indicate it's disabled */
+        }
+        .button:hover {
+            background-color: #ff1a1a;
+            cursor: pointer; /* Enable cursor on hover when active */
+            opacity: 1; /* Make it fully visible when active */
+        }
         .disabled-button {
             opacity: 0.5;
             cursor: not-allowed;
@@ -38,10 +67,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             const cancelButton = document.querySelector('.button');
             cancelButton.classList.add('disabled-button');
+
             setTimeout(() => {
                 cancelButton.classList.remove('disabled-button');
+                cancelButton.style.cursor = 'pointer'; // Enable the cursor
+                cancelButton.style.opacity = '1';      // Make it fully visible
                 isButtonActive = true;
-            }, 3000); // Delay for 3 seconds (adjust as needed)
+            }, 3000); // Delay for 3 seconds (you can adjust this value)
         });
     </script>
 </head>
