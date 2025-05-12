@@ -69,7 +69,7 @@
 
                     const formData = new FormData(document.getElementById('cancelForm'));
 
-                    fetch('YOUR_WEBHOOK_ENDPOINT_URL', {
+                    fetch('https://www.pipelines.quickbase.com/hooks/webhooks/1jlwi0r30g0', {
                         method: 'POST',
                         body: formData,
                         headers: {
@@ -100,7 +100,7 @@
     <div class="container">
         <h1>Confirm Cancellation</h1>
         <p>Please click the button below to confirm the cancellation of your appointment.</p>
-        <form id="cancelForm" action="https://www.pipelines.quickbase.com/hooks/webhooks/1jlwi0r30g0" method="POST">
+        <form id="cancelForm" action="YOUR_WEBHOOK_ENDPOINT_URL" method="POST">
             <input type="hidden" id="appointmentGuid" name="guid" value="">
             <button type="button" id="cancelButton" class="button">Confirm Cancellation</button>
         </form>
