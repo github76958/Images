@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cancel Confirmation</title>
+    <title>Confirm Cancellation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,62 +26,40 @@
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
-            cursor: not-allowed; /* Initially disabled cursor */
+            cursor: pointer;
             font-size: 16px;
-            opacity: 0.5; /* Visually indicate it's disabled */
         }
         .button:hover {
             background-color: #ff1a1a;
-            cursor: pointer; /* Enable cursor on hover when active */
-            opacity: 1; /* Make it fully visible when active */
-        }
-        .disabled-button {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
     </style>
     <script>
-        let isButtonActive = false;
-
-        function getCancelLink() {
+        document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const guid = urlParams.get('guid');
-            if (guid) {
-                return `https://github76958.github.io/Images/Cancel%20Booking.html?guid=${encodeURIComponent(guid)}`;
-            } else {
-                return null;
-            }
-        }
+            const guidInput = document.getElementById('appointmentGuid');
 
-        function cancelAction() {
-            if (isButtonActive) {
-                const cancelLink = getCancelLink();
-                if (cancelLink) {
-                    window.location.href = cancelLink;
-                } else {
-                    alert('GUID parameter not found in the URL!');
+            if (guid && guidInput) {
+                guidInput.value = guid;
+            } else {
+                alert('GUID parameter not found in the URL!');
+                // Optionally disable the button or handle the error differently
+                const submitButton = document.querySelector('button[type="submit"]');
+                if (submitButton) {
+                    submitButton.disabled = true;
                 }
             }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const cancelButton = document.querySelector('.button');
-            cancelButton.classList.add('disabled-button');
-
-            setTimeout(() => {
-                cancelButton.classList.remove('disabled-button');
-                cancelButton.style.cursor = 'pointer'; // Enable the cursor
-                cancelButton.style.opacity = '1';      // Make it fully visible
-                isButtonActive = true;
-            }, 3000); // Delay for 3 seconds (you can adjust this value)
         });
     </script>
 </head>
 <body>
     <div class="container">
-        <h1>Are you sure you want to cancel?</h1>
-        <button class="button disabled-button" onclick="cancelAction()">Cancel</button>
-        <p>Please wait a few seconds for the button to become active.</p>
+        <h1>Confirm Cancellation</h1>
+        <p>Please click the button below to confirm the cancellation of your appointment.</p>
+        <form id="cancelForm" action="YOUR_WEBHOOK_ENDPOINT_URL" method="POST">
+            <input type="hidden" id="appointmentGuid" name="guid" value="">
+            <button type="submit" class="button">Confirm Cancellation</button>
+        </form>
     </div>
 </body>
 </html>
