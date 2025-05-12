@@ -53,6 +53,7 @@
             const guidInput = document.getElementById('appointmentGuid');
             const cancelButton = document.getElementById('cancelButton');
             const messageContainer = document.getElementById('messageContainer');
+            const webhookUrl = 'https://www.pipelines.quickbase.com/hooks/webhooks/1jlwi0r30g0'; // Your webhook URL
 
             if (guid && guidInput) {
                 guidInput.value = guid;
@@ -68,12 +69,13 @@
                     event.preventDefault(); // Prevent the default form submission
 
                     const formData = new FormData(document.getElementById('cancelForm'));
+                    console.log('Form Data (GUID):', formData.get('guid')); // Log the guid value
 
-                    fetch('https://www.pipelines.quickbase.com/hooks/webhooks/1jlwi0r30g0', {
+                    fetch(webhookUrl, {
                         method: 'POST',
                         body: formData,
                         headers: {
-                            'X-Requested-With': 'XMLHttpRequest' // Optional: To identify AJAX requests on the server
+                            'X-Requested-With': 'XMLHttpRequest' // Optional: To identify AJAX requests
                         }
                     })
                     .then(response => {
@@ -82,8 +84,10 @@
                             messageContainer.className = 'message-container success-message';
                         } else {
                             console.error('Cancellation request failed:', response.status);
-                            messageContainer.textContent = 'Error: Could not submit cancellation. Please try again later.';
-                            messageContainer.className = 'message-container error-message';
+                            return response.text().then(errorMessage => {
+                                messageContainer.textContent = `Error: Could not submit cancellation. Status: ${response.status} - ${errorMessage}`;
+                                messageContainer.className = 'message-container error-message';
+                            });
                         }
                     })
                     .catch(error => {
