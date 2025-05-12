@@ -5,59 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cancel Confirmation</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-        .container {
-            text-align: center;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .button {
-            background-color: #ff4d4d;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .button:hover {
-            background-color: #ff1a1a;
+        /* ... (your existing styles) ... */
+        .disabled-button {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     </style>
     <script>
+        let isButtonActive = false;
+
         function getCancelLink() {
             const urlParams = new URLSearchParams(window.location.search);
             const guid = urlParams.get('guid');
             if (guid) {
                 return `https://github76958.github.io/Images/Cancel%20Booking.html?guid=${encodeURIComponent(guid)}`;
             } else {
-                return null; // Or handle the missing guid in cancelAction
+                return null;
             }
         }
 
         function cancelAction() {
-            const cancelLink = getCancelLink();
-            if (cancelLink) {
-                window.location.href = cancelLink;
-            } else {
-                alert('GUID parameter not found in the URL!');
+            if (isButtonActive) {
+                const cancelLink = getCancelLink();
+                if (cancelLink) {
+                    window.location.href = cancelLink;
+                } else {
+                    alert('GUID parameter not found in the URL!');
+                }
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cancelButton = document.querySelector('.button');
+            cancelButton.classList.add('disabled-button');
+            setTimeout(() => {
+                cancelButton.classList.remove('disabled-button');
+                isButtonActive = true;
+            }, 3000); // Delay for 3 seconds (adjust as needed)
+        });
     </script>
 </head>
 <body>
     <div class="container">
         <h1>Are you sure you want to cancel?</h1>
-        <button class="button" onclick="cancelAction()">Cancel</button>
+        <button class="button disabled-button" onclick="cancelAction()">Cancel</button>
+        <p>Please wait a few seconds for the button to become active.</p>
     </div>
 </body>
 </html>
