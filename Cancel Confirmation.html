@@ -40,6 +40,8 @@
     </style>
     <script>
         let cancelButton;
+        let countdownTimer;
+        let timeLeft = 10;
 
         function getCancelLink() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -60,21 +62,28 @@
             }
         }
 
-        function enableCancelButton() {
-            cancelButton.disabled = false;
+        function updateButtonText() {
+            if (timeLeft > 0) {
+                cancelButton.textContent = `Please wait (${timeLeft}s)`;
+                timeLeft--;
+                countdownTimer = setTimeout(updateButtonText, 1000);
+            } else {
+                cancelButton.textContent = 'Cancel';
+                cancelButton.disabled = false;
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             cancelButton = document.querySelector('.button');
             cancelButton.disabled = true;
-            setTimeout(enableCancelButton, 10000); // 10000 milliseconds = 10 seconds
+            updateButtonText();
         });
     </script>
 </head>
 <body>
     <div class="container">
         <h1>Are you sure you want to cancel?</h1>
-        <button class="button" onclick="cancelAction()" disabled>Cancel</button>
+        <button class="button" onclick="cancelAction()" disabled>Please wait (10s)</button>
     </div>
 </body>
 </html>
