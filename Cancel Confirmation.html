@@ -20,6 +20,13 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        .input-field {
+            margin-bottom: 15px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
         .button {
             background-color: #ff4d4d;
             color: white;
@@ -40,8 +47,7 @@
     </style>
     <script>
         let cancelButton;
-        let countdownTimer;
-        let timeLeft = 10;
+        let confirmationInput;
 
         function getCancelLink() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -54,36 +60,41 @@
         }
 
         function cancelAction() {
-            const cancelLink = getCancelLink();
-            if (cancelLink) {
-                window.location.href = cancelLink;
+            if (confirmationInput.value.toLowerCase() === 'yes') {
+                const cancelLink = getCancelLink();
+                if (cancelLink) {
+                    window.location.href = cancelLink;
+                } else {
+                    alert('GUID parameter not found in the URL!');
+                }
             } else {
-                alert('GUID parameter not found in the URL!');
+                alert('Please type "yes" to confirm cancellation.');
             }
         }
 
-        function updateButtonText() {
-            if (timeLeft > 0) {
-                cancelButton.textContent = `Please wait (${timeLeft}s)`;
-                timeLeft--;
-                countdownTimer = setTimeout(updateButtonText, 1000);
-            } else {
-                cancelButton.textContent = 'Cancel';
+        function checkConfirmation() {
+            if (confirmationInput.value.toLowerCase() === 'yes') {
                 cancelButton.disabled = false;
+            } else {
+                cancelButton.disabled = true;
             }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             cancelButton = document.querySelector('.button');
-            cancelButton.disabled = true;
-            updateButtonText();
+            confirmationInput = document.querySelector('#confirmCancel');
+            cancelButton.disabled = true; // Initially disabled
+
+            confirmationInput.addEventListener('input', checkConfirmation);
         });
     </script>
 </head>
 <body>
     <div class="container">
         <h1>Are you sure you want to cancel?</h1>
-        <button class="button" onclick="cancelAction()" disabled>Please wait (10s)</button>
+        <p>To confirm cancellation, please type "yes" in the box below.</p>
+        <input type="text" id="confirmCancel" class="input-field" placeholder="Type 'yes' here">
+        <button class="button" onclick="cancelAction()" disabled>Cancel</button>
     </div>
 </body>
 </html>
