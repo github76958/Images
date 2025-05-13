@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Cancellation</title>
+    <title>Cancel Confirmation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,32 +34,30 @@
         }
     </style>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        function getCancelLink() {
             const urlParams = new URLSearchParams(window.location.search);
             const guid = urlParams.get('guid');
-            const guidInput = document.getElementById('appointmentGuid');
+            if (guid) {
+                return `https://github76958.github.io/Images/Cancel%20Booking.html?guid=${encodeURIComponent(guid)}`;
+            } else {
+                return null; // Or handle the missing guid in cancelAction
+            }
+        }
 
-            if (guid && guidInput) {
-                guidInput.value = guid;
+        function cancelAction() {
+            const cancelLink = getCancelLink();
+            if (cancelLink) {
+                window.location.href = cancelLink;
             } else {
                 alert('GUID parameter not found in the URL!');
-                // Optionally disable the button or handle the error differently
-                const submitButton = document.querySelector('button[type="submit"]');
-                if (submitButton) {
-                    submitButton.disabled = true;
-                }
             }
-        });
+        }
     </script>
 </head>
 <body>
     <div class="container">
-        <h1>Confirm Cancellation</h1>
-        <p>Please click the button below to confirm the cancellation of your appointment.</p>
-        <form id="cancelForm" action="https://www.pipelines.quickbase.com/hooks/webhooks/1jlwi0r30g0" method="POST">
-            <input type="hidden" id="appointmentGuid" name="guid" value="">
-            <button type="submit" class="button">Confirm Cancellation</button>
-        </form>
+        <h1>Are you sure you want to cancel?</h1>
+        <button class="button" onclick="cancelAction()">Cancel</button>
     </div>
 </body>
 </html>
