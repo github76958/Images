@@ -32,15 +32,22 @@
         .button:hover {
             background-color: #ff1a1a;
         }
+        .button:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+        }
     </style>
     <script>
+        let cancelButton;
+
         function getCancelLink() {
             const urlParams = new URLSearchParams(window.location.search);
             const guid = urlParams.get('guid');
             if (guid) {
                 return `https://github76958.github.io/Images/Cancel%20Booking.html?guid=${encodeURIComponent(guid)}`;
             } else {
-                return null; // Or handle the missing guid in cancelAction
+                return null;
             }
         }
 
@@ -52,12 +59,22 @@
                 alert('GUID parameter not found in the URL!');
             }
         }
+
+        function enableCancelButton() {
+            cancelButton.disabled = false;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            cancelButton = document.querySelector('.button');
+            cancelButton.disabled = true;
+            setTimeout(enableCancelButton, 10000); // 10000 milliseconds = 10 seconds
+        });
     </script>
 </head>
 <body>
     <div class="container">
         <h1>Are you sure you want to cancel?</h1>
-        <button class="button" onclick="cancelAction()">Cancel</button>
+        <button class="button" onclick="cancelAction()" disabled>Cancel</button>
     </div>
 </body>
 </html>
