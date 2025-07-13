@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save Record to Add Comments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .message-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .shortcut {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #007bff; /* A nice blue color */
+            background-color: #e9f5ff; /* Light blue background for the shortcut */
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .note {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="message-container">
+        <h1>Action Required!</h1>
+        <p>
+            To start adding comments, you first need to **save this record**.
+            You can quickly do this by pressing the keyboard shortcut:
+        </p>
+        <div class="shortcut">
+            Ctrl + Shift + S
+        </div>
+        <p class="note">
+            Once saved, the comment section will become active.
+        </p>
+    </div>
+</body>
+</html>
